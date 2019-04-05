@@ -1,7 +1,12 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+import   { Messages } from '../both/collections';
 import './main.html';
+
+if (Meteor.isDevelopment) {
+  window.Messages = Messages;
+}
 
 Template.hello.onCreated(function helloOnCreated() {
   // counter starts at 0
@@ -25,5 +30,25 @@ Template.hello.onCreated(function helloOnCreated() {
       },
       'click .js-addPlus'(event, instance) {
         instance.counter.set(instance.counter.get() + 5);
+      },
+      
+       // bouton submit
+      'submit .js-insert-message'(event, instance) {
+        event.preventDefault(); //empeche le rechargement de l'url après validation (GET)
+        let content = event.target.content.value; //recupérer le input du formulaire
+
+        // pour montrer que l'event à bien fonctionné
+        console.log('form event', content); 
+
+        //creation de la varibal a injecter dans "Messages.insert"
+        let messageDoc = {
+          content: content,
+          createdAt: new Date()
+        };
+
+        Messages.insert({messageDoc});
+
+        event.target.content.value = ''; //on efface la valeur restante dans l'input
       }
+
     });
