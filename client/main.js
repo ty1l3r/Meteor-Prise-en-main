@@ -19,6 +19,11 @@ Template.hello.onCreated(function helloOnCreated() {
     },
     title(str) {
       return str + ' Titre provenant du JS ' + str;
+    },
+
+    // vue du formulaire
+    messages() {
+      return Messages.find().fetch();
     }
 
   });
@@ -35,12 +40,14 @@ Template.hello.onCreated(function helloOnCreated() {
        // bouton submit
       'submit .js-insert-message'(event, instance) {
         event.preventDefault(); //empeche le rechargement de l'url après validation (GET)
+
         let content = event.target.content.value; //recupérer le input du formulaire
 
         // pour montrer que l'event à bien fonctionné
         console.log('form event', content); 
 
         //creation de la varibal a injecter dans "Messages.insert"
+
         let messageDoc = {
           content: content,
           createdAt: new Date()
@@ -48,7 +55,8 @@ Template.hello.onCreated(function helloOnCreated() {
 
         Messages.insert({messageDoc});
 
-        event.target.content.value = ''; //on efface la valeur restante dans l'input
+        //on efface la valeur restante dans l'input
+        event.target.content.value = ''; 
       }
 
     });

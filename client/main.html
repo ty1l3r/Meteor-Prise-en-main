@@ -19,4 +19,12 @@
     <input type="text" name="content">
     <button type="submit">Insérer un message</button>
   </form>
+  <h3>Liste des Messages</h3>
+
+  <!-- Ittérer le message de la BDD-->
+  {{#each message in messages}}
+  <p> {{message.messageDoc.content}} | {{message.messageDoc.createdAt}}</p>
+  
+  {{/each}}
+
 </template>
